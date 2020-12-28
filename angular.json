@@ -20,7 +20,10 @@
               "apps/user-table/src/favicon.ico",
               "apps/user-table/src/assets"
             ],
-            "styles": ["apps/user-table/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "apps/user-table/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -78,12 +81,17 @@
               "apps/user-table/tsconfig.spec.json",
               "apps/user-table/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/user-table/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/user-table/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/user-table"],
+          "outputs": [
+            "coverage/apps/user-table"
+          ],
           "options": {
             "jestConfig": "apps/user-table/jest.config.js",
             "passWithNoTests": true
@@ -112,15 +120,21 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/user-table-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/user-table-e2e/**/*"]
+            "tsConfig": [
+              "apps/user-table-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/user-table-e2e/**/*"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
   },
   "schematics": {
     "@nrwl/workspace": {
