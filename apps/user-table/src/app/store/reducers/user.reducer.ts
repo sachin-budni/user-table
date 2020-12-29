@@ -82,7 +82,14 @@ export function UserReducer(state: User[] = initialState, action: UserActions.Ac
 
     switch(action.type) {
         case UserActions.ADD_USER :
-            return [...state, action.playoad];
+            return [action.playoad,...state];
+        case UserActions.UPDATE_USER :
+            return state.map((m: User)=> {
+                if(m.id === action.playoad.id) {
+                    return action.playoad;
+                }
+                return m;
+            })
         default: 
             return state;
     }

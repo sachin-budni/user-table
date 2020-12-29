@@ -1,10 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { AdduserComponent } from '../adduser/adduser.component';
 import { AppState } from '../app.state';
+import { UpdateUser } from '../store/actions/user.actions';
 import { User } from '../store/models/user.model';
 
 export interface PeriodicElement {
@@ -43,7 +47,8 @@ export class UserComponent implements OnInit {
   expandedElement: User | null;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor(private store: Store<AppState>) { }
+  accessValues = ['Administrator', 'Basic'];
+  constructor(private store: Store<AppState>, private dailog: MatDialog) { }
 
   ngOnInit(): void {
     this.store.select('user')
@@ -62,7 +67,37 @@ export class UserComponent implements OnInit {
     }
   }
 
+  addUser() {
+    this.dailog.open(AdduserComponent, {
+      width: '400px',
+      data: null
+    })
+  }
+
+  updateByCheckbox(event: MatCheckboxChange, el: User, name: string) {
+    let value: User = {
+       id: el.id,
+       name: el.name,
+       username: el.username,
+       organization:el.organization,
+       access: el.access,
+       dateAdded: el.dateAdded,
+       noAccess: el.noAccess,
+       eiAnalysis: el.eiAnalysis,
+       customMap: el.customMap,
+       foreCasting: el.foreCasting
+    }
+    if(name === 'noAccess') { value.noAccess = event.checked }
+    if(name === 'eiAnalysis') { value.eiAnalysis = event.checked }
+    if(name === 'customMap') { value.customMap = event.checked }
+    if(name === 'foreCasting') { value.foreCasting = event.checked }
+    this.store.dispatch(new UpdateUser(value));
+  }
+
   update(el) {
-    console.log(el)
+    this.dailog.open(AdduserComponent, {
+      width: '400px',
+      data: el as User
+    })
   }
  }

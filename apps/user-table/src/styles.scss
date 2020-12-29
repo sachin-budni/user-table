@@ -29,3 +29,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .hide-underline .mat-form-field-underline{
   height: 0px !important;
 }
+.space-btw {
+    justify-content: space-between;
+}
+
+.btn-color{
+    background-color: orange;
+  }
+
+  .mtb-10 {
+      margin: 10px 0px;
+  }

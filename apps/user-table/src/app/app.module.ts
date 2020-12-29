@@ -24,6 +24,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UserReducer } from './store/reducers/user.reducer';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { AdduserComponent } from './adduser/adduser.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 // import {  } from '@angular/material';
 
 const materials = [
@@ -39,11 +42,12 @@ const materials = [
   MatNativeDateModule,
   MatMenuModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSortModule,
+  MatDialogModule,
 ]
 
 @NgModule({
-  declarations: [AppComponent, UserComponent],
+  declarations: [AppComponent, UserComponent, AdduserComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot(
@@ -59,9 +63,11 @@ const materials = [
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     BrowserAnimationsModule,
-    materials
+    materials,
+    ReactiveFormsModule
   ],
   providers: [],
+  entryComponents: [AdduserComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

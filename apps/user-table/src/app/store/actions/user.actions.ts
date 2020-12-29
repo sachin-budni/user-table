@@ -11,16 +11,16 @@ export class AddUser implements Action {
 
     constructor(public playoad: User){ }
 }
-export class UpdateTrello implements Action {
+export class UpdateUser implements Action {
     readonly type = UPDATE_USER;
 
-    constructor(public playoad: User, public id: number){ }
+    constructor(public playoad: User){ }
 }
-export class RemoveTrello implements Action {
+export class RemoveUser implements Action {
     readonly type = REMOVE_USER;
 
     constructor(public id: number){ }
 }
 
 
-export type Actions = AddUser | UpdateTrello | RemoveTrello;
+export type Actions = AddUser | UpdateUser | RemoveUser;
