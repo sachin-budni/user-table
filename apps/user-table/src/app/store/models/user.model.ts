@@ -1,10 +1,11 @@
 export interface User {
     id: number;
     name: string;
+    emailId: string;
     username: string;
     organization: string;
     access: string;
-    dateAdded: Date;
+    dateAdded: number;
     noAccess: boolean;
     eiAnalysis: boolean;
     customMap: boolean;

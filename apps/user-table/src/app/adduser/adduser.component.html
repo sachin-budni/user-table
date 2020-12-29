@@ -13,15 +13,18 @@
             </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
+            <input matInput formControlName="emailId" placeholder="Email">
+            <mat-error *ngIf="!userForm.controls['emailId'].valid && userForm.controls['emailId'].touched">
+                Email is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
             <input matInput formControlName="username" placeholder="Username">
             <mat-error *ngIf="!userForm.controls['username'].valid && userForm.controls['username'].touched">
-                Name is <strong>required</strong>
+                Username is <strong>required</strong>
             </mat-error>
         </mat-form-field>
         <!-- <mat-form-field class="example-full-width">
-            <input matInput formControlName="organization" placeholder="Organization">
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
             <input matInput formControlName="access" placeholder="Access">
         </mat-form-field> -->
         <mat-form-field class="example-full-width">
@@ -30,7 +33,7 @@
               <mat-option *ngFor="let o of organizationValues" [value]="o">{{o}}</mat-option>
             </mat-select>
             <mat-error *ngIf="!userForm.controls['organization'].valid && userForm.controls['organization'].touched">
-                Name is <strong>required</strong>
+                Organization is <strong>required</strong>
             </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width">
@@ -39,7 +42,16 @@
               <mat-option *ngFor="let v of accessValues" [value]="v">{{v}}</mat-option>
             </mat-select>
             <mat-error *ngIf="!userForm.controls['access'].valid && userForm.controls['access'].touched">
-                Name is <strong>required</strong>
+                Access is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Date Added</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="dateAdded">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="!userForm.controls['dateAdded'].valid && userForm.controls['dateAdded'].touched">
+                Date Added is <strong>required</strong>
             </mat-error>
         </mat-form-field>
         <div class="example-full-width">

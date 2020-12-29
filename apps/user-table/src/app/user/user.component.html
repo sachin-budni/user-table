@@ -11,11 +11,12 @@
         </mat-form-field>
     </div>
     <div class="space-10">
-        <button mat-button [matMenuTriggerFor]="menu">User Type <mat-icon>expand_more</mat-icon></button>
-        <mat-menu #menu="matMenu">
+        <button mat-button>User Type <mat-icon>expand_more</mat-icon></button>
+        <!-- <button mat-button [matMenuTriggerFor]="menu">User Type <mat-icon>expand_more</mat-icon></button> -->
+        <!-- <mat-menu #menu="matMenu">
             <button mat-menu-item>Item 1</button>
             <button mat-menu-item>Item 2</button>
-        </mat-menu>
+        </mat-menu> -->
     </div>
     <div class="space-10">
         <mat-form-field class="example-full-width">
@@ -36,15 +37,27 @@
 </div>
 <div class="border-1">
 
-    <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
         <ng-container matColumnDef="{{column.name}}" *ngFor="let column of columnObj">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="column.name == 'blank' ? 'w-40' : ''"> {{column.name == 'blank' ? '' : column.column}} </th>
+            <th mat-header-cell *matHeaderCellDef [ngClass]="column.name == 'blank' ? 'w-40' : ''"> 
+                <span class="row align-items-center">
+                    {{column.name == 'blank' ? '' : column.column }}
+                    <ng-container *ngIf="column.name === 'dateAdded' || column.name === 'name' || column.name === 'username'">
+                        <mat-icon>expand_more</mat-icon>
+                    </ng-container>
+                </span>
+            </th>
             <td mat-cell *matCellDef="let element" [ngClass]="column.name == 'blank' ? 'w-40' : ''" class="cursor-pointer">
-                <ng-container *ngIf="column.name !=='dateAdded' && column.name !=='access' && element[column.name] !== undefined">
+
+                <ng-container *ngIf="column.name !== 'dateAdded' && column.name !=='name' && column.name !=='access' && element[column.name] !== undefined">
                     {{element[column.name]}}
                 </ng-container>
+                <ng-container *ngIf="column.name ==='name'">
+                    <p>{{element[column.name]}}</p>
+                    <p>{{element['emailId']}}</p>
+                </ng-container>
                 <ng-container *ngIf="column.name ==='dateAdded'">
-                    {{element[column.name] | date:'MM/dd/yyyy hh:mm:ss aa'}} UTC
+                    {{element[column.name] | date:'MM/dd/yyyy hh:mm:ss aa'}}
                 </ng-container>
                 <ng-container *ngIf="column.name ==='access'">
                     <mat-form-field>
@@ -55,7 +68,9 @@
                     </mat-form-field>
                 </ng-container>
                 <ng-container *ngIf="element[column.name] === undefined;">
-                    <mat-icon [ngClass]="element == expandedElement ? 'expanded' : 'collapsed'">expand_more</mat-icon>
+                    <button mat-icon-button (click)="expandedElement = expandedElement === element ? null : element">
+                        <mat-icon [ngClass]="element == expandedElement ? 'expanded' : 'collapsed'">expand_more</mat-icon>
+                    </button>
                 </ng-container>
             </td>
         </ng-container>
@@ -86,8 +101,7 @@
     
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
-            [class.example-expanded-row]="expandedElement === element"
-            (click)="expandedElement = expandedElement === element ? null : element">
+            [class.example-expanded-row]="expandedElement === element">
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
         <tr class="mat-row" *matNoDataRow>

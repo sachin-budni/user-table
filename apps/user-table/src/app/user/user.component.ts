@@ -34,7 +34,7 @@ export interface PeriodicElement {
 export class UserComponent implements OnInit {
 
   dataSource = new MatTableDataSource<User>([]);
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  // @ViewChild(MatSort, { static: true }) sort: MatSort;
   columnObj = [
     { name: 'blank', column: 'Blank' },
     { name: 'name', column: 'Name' },
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
     .subscribe((user: User[]) => {
       this.dataSource = new MatTableDataSource(user);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      // this.dataSource.sort = this.sort;
     });
   }
   applyFilter(event: Event) {
@@ -78,6 +78,7 @@ export class UserComponent implements OnInit {
     let value: User = {
        id: el.id,
        name: el.name,
+       emailId: el.emailId,
        username: el.username,
        organization:el.organization,
        access: el.access,

@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { AddUser, UpdateUser } from '../store/actions/user.actions';
 import { User } from '../store/models/user.model';
-
 @Component({
   selector: 'users-table-adduser',
   templateUrl: './adduser.component.html',
@@ -22,6 +21,7 @@ export class AdduserComponent implements OnInit {
   ngOnInit(): void {
      this.userForm = this.fb.group({
        name: ['', Validators.required],
+       emailId: ['', Validators.required],
        username: ['', Validators.required],
        organization: ['', Validators.required],
        access: ['', Validators.required],
@@ -41,20 +41,29 @@ export class AdduserComponent implements OnInit {
   }
 
   setValues(name: string) {
-    if (name === 'id') return false;
-    this.userForm.controls[name].setValue(this.user[name]);
+    if (name === 'dateAdded') {
+      this.userForm.controls[name].setValue(new Date(this.user[name]))
+    } else if (name !== 'id') {
+      this.userForm.controls[name].setValue(this.user[name]);
+    }
   }
 
-  onSubmit(value: User) {
+  onSubmit(value: any) {
+    if(!this.userForm.valid) return false; 
     if(this.user) {
       value.id = this.user.id;
+      value.dateAdded = this.convertUTC(value.dateAdded);
       this.store.dispatch(new UpdateUser(value));
     } else {
       value.id = Math.floor((Math.random()*1000000)+1)
-      value.dateAdded = new Date();
+      value.dateAdded = this.convertUTC(value.dateAdded);
       this.store.dispatch(new AddUser(value));
     }
     this.close();
+  }
+
+  convertUTC(d: Date): number {
+    return Date.UTC(d.getFullYear(),d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
   }
 
   close() {
