@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { AddUser, UpdateUser } from '../store/actions/user.actions';
+import { AddUserAction, UpdateUserAction } from '../store/actions/user.actions';
 import { User } from '../store/models/user.model';
 @Component({
   selector: 'users-table-adduser',
@@ -53,11 +53,11 @@ export class AdduserComponent implements OnInit {
     if(this.user) {
       value.id = this.user.id;
       value.dateAdded = this.convertUTC(value.dateAdded);
-      this.store.dispatch(new UpdateUser(value));
+      this.store.dispatch(new UpdateUserAction(value));
     } else {
       value.id = Math.floor((Math.random()*1000000)+1)
       value.dateAdded = this.convertUTC(value.dateAdded);
-      this.store.dispatch(new AddUser(value));
+      this.store.dispatch(new AddUserAction(value));
     }
     this.close();
   }

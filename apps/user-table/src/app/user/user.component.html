@@ -53,7 +53,7 @@
                     {{element[column.name]}}
                 </ng-container>
                 <ng-container *ngIf="column.name ==='name'">
-                    <p>{{element[column.name]}}</p>
+                    <h4>{{element[column.name]}}</h4>
                     <p>{{element['emailId']}}</p>
                 </ng-container>
                 <ng-container *ngIf="column.name ==='dateAdded'">
@@ -62,7 +62,7 @@
                 <ng-container *ngIf="column.name ==='access'">
                     <mat-form-field>
                         <mat-label>Choose an access</mat-label>
-                        <mat-select [value]="element[column.name]">
+                        <mat-select [value]="element[column.name]" (selectionChange)="selectedOption($event, element)">
                           <mat-option *ngFor="let v of accessValues" [value]="v">{{v}}</mat-option>
                         </mat-select>
                     </mat-form-field>

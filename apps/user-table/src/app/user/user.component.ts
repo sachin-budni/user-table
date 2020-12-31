@@ -3,13 +3,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AdduserComponent } from '../adduser/adduser.component';
 import { AppState } from '../app.state';
-import { UpdateUser } from '../store/actions/user.actions';
+import { LoadUserAction, UpdateUserAction } from '../store/actions/user.actions';
 import { User } from '../store/models/user.model';
+import { accessValue } from './../utils/user.utils';
 
 export interface PeriodicElement {
   name: string;
@@ -34,7 +37,6 @@ export interface PeriodicElement {
 export class UserComponent implements OnInit {
 
   dataSource = new MatTableDataSource<User>([]);
-  // @ViewChild(MatSort, { static: true }) sort: MatSort;
   columnObj = [
     { name: 'blank', column: 'Blank' },
     { name: 'name', column: 'Name' },
@@ -47,16 +49,34 @@ export class UserComponent implements OnInit {
   expandedElement: User | null;
   datemask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  accessValues = ['Administrator', 'Basic'];
+  accessValues = accessValue;
+  checkBoxes: {
+    id?: number,
+    noAccess?: boolean,
+    eiAnalysis?: boolean,
+    customMap?: boolean,
+    foreCasting?: boolean,
+  }[] = [];
+  selectedOptionAccess: {id?: number, access?: string}[] = [];
+  UserList: Observable<User[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<Error>;
   constructor(private store: Store<AppState>, private dailog: MatDialog) { }
 
   ngOnInit(): void {
-    this.store.select('user')
-    .subscribe((user: User[]) => {
+    this.UserList = this.store.select(store => store.user.list)
+    this.loading$ = this.store.select(store => store.user.loading);
+    this.error$ = this.store.select(store => store.user.error);
+    this.store.dispatch(new LoadUserAction());
+    this.UserList.subscribe((user: User[]) => {
       this.dataSource = new MatTableDataSource(user);
       this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
     });
+    // this.store.select('user')
+    // .subscribe((user: User[]) => {
+    //   this.dataSource = new MatTableDataSource(user);
+    //   this.dataSource.paginator = this.paginator;
+    // });
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -75,30 +95,84 @@ export class UserComponent implements OnInit {
   }
 
   updateByCheckbox(event: MatCheckboxChange, el: User, name: string) {
-    let value: User = {
-       id: el.id,
-       name: el.name,
-       emailId: el.emailId,
-       username: el.username,
-       organization:el.organization,
-       access: el.access,
-       dateAdded: el.dateAdded,
-       noAccess: el.noAccess,
-       eiAnalysis: el.eiAnalysis,
-       customMap: el.customMap,
-       foreCasting: el.foreCasting
+    if (!(this.checkBoxes.some(d => d.id == el.id))) {
+      let k= {};
+      k[name] = event.checked;
+      k['id'] = el.id;
+      this.checkBoxes.push(k);
+    } else {
+      this.checkBoxes.map(d => {
+        if (el.id === d.id)
+        d[name] = event.checked;
+      })
     }
-    if(name === 'noAccess') { value.noAccess = event.checked }
-    if(name === 'eiAnalysis') { value.eiAnalysis = event.checked }
-    if(name === 'customMap') { value.customMap = event.checked }
-    if(name === 'foreCasting') { value.foreCasting = event.checked }
-    this.store.dispatch(new UpdateUser(value));
   }
 
+  selectedOption(event: MatSelectChange,el: User) {
+    console.log(event);
+    if (!(this.selectedOptionAccess.some(b => b.id === el.id))) {
+      this.selectedOptionAccess.push({
+        id: el.id,
+        access: event.value
+      });
+    } else {
+      this.selectedOptionAccess.map(e => {
+        if(e.id == el.id)
+        e.access = event.value;
+      })
+    }
+  }
   update(el) {
-    this.dailog.open(AdduserComponent, {
-      width: '400px',
-      data: el as User
-    })
+    if (!(this.checkBoxes.some(d => d.id == el.id))) {
+      this.expandedElement = el;
+      let v = this.setValues(el);
+      if(this.selectedOptionAccess.some(n => n.id === el.id)) {
+        v.access = this.selectedOptionAccess.find(d1 => d1.id === el.id)?.access;
+      }
+      this.store.dispatch(new UpdateUserAction(v));
+      this.expandedElement = v;
+    } else {
+      this.checkBoxes.forEach(d => {
+        if(d.id === el.id) {
+          const { noAccess, customMap, eiAnalysis, foreCasting } = d;
+          let value: User = {
+            id: el.id,
+            name: el.name,
+            emailId: el.emailId,
+            username: el.username,
+            organization:el.organization,
+            access: el.access,
+            dateAdded: el.dateAdded,
+            noAccess: noAccess !== undefined  ? noAccess : el.noAccess,
+            eiAnalysis: eiAnalysis !== undefined ? eiAnalysis: el.eiAnalysis,
+            customMap: customMap !== undefined ? customMap : el.customMap,
+            foreCasting: foreCasting !== undefined ? foreCasting : el.foreCasting
+         }
+         let v = this.setValues(value);
+         if(this.selectedOptionAccess.some(n => n.id === v.id)) {
+           v.access = this.selectedOptionAccess.find(d1 => d1.id === el.id)?.access;
+         }
+         this.store.dispatch(new UpdateUserAction(v));
+         this.expandedElement = v;
+        }
+      });
+    }
+  }
+
+  setValues(newValue: User):User {
+    const { access, foreCasting, eiAnalysis, customMap, dateAdded , emailId, id, name,noAccess,organization,username }  = newValue;
+    return {
+      access: access,
+      customMap: customMap,
+      dateAdded: dateAdded,
+      eiAnalysis: eiAnalysis,
+      emailId: emailId,
+      foreCasting: foreCasting,
+      id: id,
+      name: name,
+      noAccess: noAccess,
+      organization: organization,
+      username: username
+    }
   }
  }

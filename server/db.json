@@ -1,0 +1,95 @@
+{
+  "users": [
+    {
+      "access": "Basic",
+      "customMap": false,
+      "dateAdded": 842486400000,
+      "eiAnalysis": true,
+      "emailId": "echalprosacco@yahoo.com",
+      "foreCasting": false,
+      "id": 1,
+      "name": "Sylvester Gislason",
+      "noAccess": true,
+      "organization": "Customer",
+      "username": "andrew88"
+    },
+    {
+      "access": "Administrator",
+      "customMap": false,
+      "dateAdded": 844214400000,
+      "eiAnalysis": true,
+      "emailId": "luthe@gmail.com",
+      "foreCasting": false,
+      "id": 2,
+      "name": "Sophle Mraz",
+      "noAccess": false,
+      "organization": "Customer",
+      "username": "darrin.homenick4755"
+    },
+    {
+      "id": 3,
+      "name": "Eileen Beler",
+      "emailId": "david88@gmail.com",
+      "username": "marilyn.crona",
+      "organization": "Dealer",
+      "access": "Basic",
+      "dateAdded": 1632345703000,
+      "customMap": false,
+      "eiAnalysis": false,
+      "foreCasting": false,
+      "noAccess": false
+    },
+    {
+      "id": 4,
+      "name": "Minnie Rogahn",
+      "emailId": "jacqueline@gmail.com",
+      "username": "micheal_parker20",
+      "organization": "Dealer",
+      "access": "Administrator",
+      "dateAdded": 1343164903000,
+      "customMap": false,
+      "eiAnalysis": false,
+      "foreCasting": false,
+      "noAccess": false
+    },
+    {
+      "id": 5,
+      "name": "Lucia Wilderman",
+      "emailId": "givendoly.wish@yahoo.com",
+      "username": "judith_parker20",
+      "organization": "Customer",
+      "access": "Administrator",
+      "dateAdded": 1445635303000,
+      "customMap": false,
+      "eiAnalysis": false,
+      "foreCasting": false,
+      "noAccess": true
+    },
+    {
+      "access": "Administrator",
+      "customMap": true,
+      "dateAdded": 872208000000,
+      "eiAnalysis": true,
+      "emailId": "david88@gmail.com",
+      "foreCasting": false,
+      "id": 6,
+      "name": "Minnie Rogahn",
+      "noAccess": false,
+      "organization": "Dealer",
+      "username": "micheal_parker20"
+    },
+    {
+      "name": "sachin budni",
+      "emailId": "sachin@gmail.com",
+      "username": "Bangalorefsadfsd",
+      "organization": "Dealer",
+      "access": "Administrator",
+      "dateAdded": 1608163200000,
+      "noAccess": true,
+      "eiAnalysis": true,
+      "customMap": true,
+      "foreCasting": false,
+      "id": 182505
+    }
+  ]
+}

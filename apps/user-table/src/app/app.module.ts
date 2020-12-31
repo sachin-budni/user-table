@@ -26,7 +26,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { AdduserComponent } from './adduser/adduser.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from './service/user.service';
+import { HttpClientModule } from '@angular/common/http';
+import { UserEffects } from './store/effects/user.effects';
 // import {  } from '@angular/material';
 
 const materials = [
@@ -60,13 +63,15 @@ const materials = [
         },
       }
     ),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([UserEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     BrowserAnimationsModule,
     materials,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UserService],
   entryComponents: [AdduserComponent],
   bootstrap: [AppComponent],
 })
