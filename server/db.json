@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "access": "Basic",
+      "access": "Administrator",
       "customMap": false,
       "dateAdded": 842486400000,
       "eiAnalysis": true,
@@ -14,8 +14,8 @@
       "username": "andrew88"
     },
     {
-      "access": "Administrator",
-      "customMap": false,
+      "access": "Basic",
+      "customMap": true,
       "dateAdded": 844214400000,
       "eiAnalysis": true,
       "emailId": "luthe@gmail.com",

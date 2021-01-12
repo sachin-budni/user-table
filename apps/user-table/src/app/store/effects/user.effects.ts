@@ -57,7 +57,6 @@ export class UserEffects {
     .pipe(
       ofType<UpdateUserAction>(UPDATE_USER),
       mergeMap((data) => {
-        debugger;
           return this.userService.updateUser(data.payload)
           .pipe(
             map(() => new UpdateUserSuccessAction(data.payload)),

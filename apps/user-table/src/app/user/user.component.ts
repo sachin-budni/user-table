@@ -108,8 +108,8 @@ export class UserComponent implements OnInit {
     }
   }
 
-  selectedOption(event: MatSelectChange,el: User) {
-    console.log(event);
+  selectedOption(events: any) {
+    const { event, el } = events;
     if (!(this.selectedOptionAccess.some(b => b.id === el.id))) {
       this.selectedOptionAccess.push({
         id: el.id,

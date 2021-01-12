@@ -1,0 +1,6 @@
+ <mat-form-field>
+    <mat-label>Choose an access</mat-label>
+    <mat-select [value]="element[column.name]" (selectionChange)="selectedOptions($event, element)">
+        <mat-option *ngFor="let v of accessValues" [value]="v">{{v}}</mat-option>
+    </mat-select>
+</mat-form-field>

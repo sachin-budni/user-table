@@ -30,6 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './service/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { UserEffects } from './store/effects/user.effects';
+import { RoleComponent } from './role/role.component';
 // import {  } from '@angular/material';
 
 const materials = [
@@ -50,7 +51,7 @@ const materials = [
 ]
 
 @NgModule({
-  declarations: [AppComponent, UserComponent, AdduserComponent],
+  declarations: [AppComponent, UserComponent, AdduserComponent, RoleComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot(

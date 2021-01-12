@@ -60,12 +60,13 @@
                     {{element[column.name] | date:'MM/dd/yyyy hh:mm:ss aa'}}
                 </ng-container>
                 <ng-container *ngIf="column.name ==='access'">
-                    <mat-form-field>
+                    <!-- <mat-form-field>
                         <mat-label>Choose an access</mat-label>
                         <mat-select [value]="element[column.name]" (selectionChange)="selectedOption($event, element)">
                           <mat-option *ngFor="let v of accessValues" [value]="v">{{v}}</mat-option>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    <users-table-role [element]="element" [column]="column" (selectedOption)="selectedOption($event)"></users-table-role>
                 </ng-container>
                 <ng-container *ngIf="element[column.name] === undefined;">
                     <button mat-icon-button (click)="expandedElement = expandedElement === element ? null : element">
